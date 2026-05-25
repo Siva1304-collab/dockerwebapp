@@ -7,8 +7,11 @@ services:
     ports:
       - "3306:3306"
 
+    networks:
+      - automation_net
+
     deploy:
-      replicas: 3
+      replicas: 1
       restart_policy:
         condition: on-failure
 
@@ -17,6 +20,9 @@ services:
     ports:
       - "1111:8080"
 
+    networks:
+      - automation_net
+
     deploy:
       replicas: 3
       restart_policy:
@@ -24,3 +30,7 @@ services:
 
     depends_on:
       - devopsdb
+
+networks:
+  automation_net:
+    driver: overlay
