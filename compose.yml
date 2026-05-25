@@ -1,14 +1,26 @@
----
-version: "3"
-services:
- devopsdb:
-   image: shaikmustafa/harikanew:dbimage
-   ports:
-     - "3306:3306"
+version: "3.8"
 
- application:
-   image: shaikmustafa/harikanew:appimage
-   ports:
-     - "1111:8080"
-   depends_on:
-     - "devopsdb"
+services:
+
+  devopsdb:
+    image: siva1304/automation:db
+    ports:
+      - "3306:3306"
+
+    deploy:
+      replicas: 3
+      restart_policy:
+        condition: on-failure
+
+  application:
+    image: siva1304/automation:app
+    ports:
+      - "1111:8080"
+
+    deploy:
+      replicas: 3
+      restart_policy:
+        condition: on-failure
+
+    depends_on:
+      - devopsdb
